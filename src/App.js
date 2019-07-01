@@ -14,12 +14,12 @@ import Filter from './components/Filter';
 const App = () => {
 
 
-  const [absentThreshold, setAbsentThreshold] = useState(70);
-  const [filterQuery, setFilterQuery] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [absentThreshold, setAbsentThreshold] = useState(100);
+  const [gradeFilter, setGradeFilter] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(null);
 
   const handleFilterClick = (value) => {
-    setFilterQuery(value);
+    setGradeFilter(Number(value));
   }
 
   const handleSearchChange = (query) => {
@@ -31,8 +31,31 @@ const App = () => {
   }
 
   const filterChronicallyAbsentStudents = () => {
-
     return studentsData.filter(student => student.attendancePercentage < absentThreshold);
+  }
+
+  const filterByGrade = (array) => array.filter(student => student.grade === gradeFilter);
+
+  const searchFilter = (students) => {
+    /*filters through the array and selects the students with a first
+      or last name that matches with the search query*/
+    return students.filter(student => student.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+    ||
+    student.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  }
+
+  const filteredStudents = () => {
+    console.log("gradefilter", gradeFilter);
+    if (searchQuery && gradeFilter) {
+      return searchFilter(filterByGrade(filterChronicallyAbsentStudents()));
+    } else if (searchQuery) {
+      return searchFilter(filterChronicallyAbsentStudents());
+    } else if (gradeFilter) {
+      return filterByGrade(filterChronicallyAbsentStudents());
+    } else{
+      return filterChronicallyAbsentStudents();
+    }
   }
 
   const availableGrades = () => {
@@ -46,7 +69,7 @@ const App = () => {
     <div>
       <h1>Dashboard</h1>
       <Filter grades={availableGrades()} onFilterClick={handleFilterClick} onSearchChange={handleSearchChange} onThresholdChange={handleThresholdChange}/>
-      <StudentList students={filterChronicallyAbsentStudents()}/>
+      <StudentList students={filteredStudents()}/>
     </div>
   );
 }

@@ -7,7 +7,7 @@ const StudentFilterAndSearch = (props) => {
   const [absentToggle, setAbsentToggle] = useState({action: false, threshold: 70});
 
   const handleGradeFilter = (event) =>{
-    setFilterData({...filterData, [event.target.name]: event.target.value});
+    setFilterData({...filterData, [event.target.name]: Number(event.target.value)});
     props.onFilterClick(event.target.value);
   }
 
@@ -31,13 +31,18 @@ const StudentFilterAndSearch = (props) => {
 
   return (
     <div id="student-filters">
+      <label name="search students" htmlFor="grade filter">Search Students By Name</label>
+      <input id="student-search"
+            value={searchQuery}
+            onChange={handleSearchChange}/>
+
       <form onSubmit={handleThresholdSubmit}>
         <label name="absent Toggle" htmlFor="See Chronically Late Students">See Chronically Late Students Theshold:</label>
         <input type="number" name="threshold" value={absentToggle.threshold} onChange={handleThresholdChange}/>
       </form>
 
       <label name="grade filter" htmlFor="grade filter">Filter By Grade</label>
-      <select name="grade" onChange={handleGradeFilter}>
+      <select name="grade" onChange={handleGradeFilter} value={filterData.grade}>
         <option>All</option>
         {renderGradeDropdown()}
       </select>
