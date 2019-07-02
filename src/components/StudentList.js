@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from 'semantic-ui-react';
 
 import Student from './Student';
 
@@ -9,9 +10,9 @@ const StudentList = (props) => {
   const renderStudents = () => students.map(student => <Student student={student} key={student.studentId}/>)
 
   return (
-    <div id="student-list">
+    <Card.Group id="student-list" centered stackable>
       {renderStudents()}
-    </div>
+    </Card.Group>
   );
 }
 

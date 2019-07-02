@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Form, Grid, Search } from 'semantic-ui-react';
+
 const StudentFilterAndSearch = (props) => {
   //Set up state for search and filter options to build a controlled form
   const [filterData, setFilterData] = useState({grade: "all", cohort: ""});
@@ -31,23 +33,42 @@ const StudentFilterAndSearch = (props) => {
 
   return (
     <div id="student-filters">
-      <label name="search students" htmlFor="grade filter">Search Students By Name</label>
-      <input id="student-search"
-            value={searchQuery}
-            onChange={handleSearchChange}/>
+    <Grid columns={3} divided>
+      <Grid.Column>
+      <Form>
+        <Form.Field>
+          <label name="search students" htmlFor="grade filter">Search Students By Name</label>
+          <Search id="student-search"
+                noResultsMessage=""
+                value={searchQuery}
+                onSearchChange={handleSearchChange}/>
+        </Form.Field>
+      </Form>
+      </Grid.Column>
 
-      <form onSubmit={handleThresholdSubmit}>
-        <label name="absent Toggle" htmlFor="See Chronically Late Students">See Chronically Late Students Theshold:</label>
-        <input type="number" name="threshold" value={absentToggle.threshold} onChange={handleThresholdChange}/>
-      </form>
+      <Grid.Column>
 
-      <label name="grade filter" htmlFor="grade filter">Filter By Grade</label>
-      <select name="grade" onChange={handleGradeFilter} value={filterData.grade}>
-        <option>All</option>
-        {renderGradeDropdown()}
-      </select>
+      <Form onSubmit={handleThresholdSubmit}>
+        <Form.Field>
+          <label name="absent Toggle" htmlFor="See Chronically Late Students">See Chronically Late Students Theshold:</label>
+          <input type="number" name="threshold" value={absentToggle.threshold} onChange={handleThresholdChange}/>
+        </Form.Field>
+      </Form>
+      </Grid.Column>
 
-      <br/>
+      <Grid.Column>
+      <Form>
+      <Form.Field>
+        <label name="grade filter" htmlFor="grade filter">Filter By Grade</label>
+        <select name="grade" onChange={handleGradeFilter} value={filterData.grade}>
+          <option>All</option>
+          {renderGradeDropdown()}
+        </select>
+      </Form.Field>
+      </Form>
+      </Grid.Column>
+
+      </Grid>
     </div>
 
   );

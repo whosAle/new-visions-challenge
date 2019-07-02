@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
 
+import { Container } from 'semantic-ui-react';
+
 import map from 'lodash/map';
 import uniq from 'lodash/uniq';
-
 
 import studentsData from './data/students.json';
 
@@ -37,8 +38,10 @@ const App = () => {
   const filterByGrade = (array) => array.filter(student => student.grade === gradeFilter);
 
   const searchFilter = (students) => {
-    /*filters through the array and selects the students with a first
-      or last name that matches with the search query*/
+    /*
+      filters through the array and selects the students with a first
+      or last name that matches with the search query
+    */
     return students.filter(student => student.firstName.toLowerCase().includes(searchQuery.toLowerCase())
     ||
     student.lastName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -46,7 +49,6 @@ const App = () => {
   }
 
   const filteredStudents = () => {
-    console.log("gradefilter", gradeFilter);
     if (searchQuery && gradeFilter) {
       return searchFilter(filterByGrade(filterChronicallyAbsentStudents()));
     } else if (searchQuery) {
@@ -66,11 +68,11 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Container>
       <h1>Dashboard</h1>
       <Filter grades={availableGrades()} onFilterClick={handleFilterClick} onSearchChange={handleSearchChange} onThresholdChange={handleThresholdChange}/>
       <StudentList students={filteredStudents()}/>
-    </div>
+    </Container>
   );
 }
 
