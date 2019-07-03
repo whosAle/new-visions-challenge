@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Form, Grid, Search, Checkbox } from 'semantic-ui-react';
+import { Form, Grid, Checkbox } from 'semantic-ui-react';
 
 const StudentFilterAndSearch = (props) => {
   //Set up state for search and filter options to build a controlled form
@@ -48,10 +48,9 @@ const StudentFilterAndSearch = (props) => {
         <Form>
           <Form.Field>
             <label name="search students" htmlFor="grade filter">Search Students By Name</label>
-            <Search id="student-search"
-                  noResultsMessage=""
+            <input id="student-search"
                   value={searchQuery}
-                  onSearchChange={handleSearchChange}/>
+                  onChange={handleSearchChange}/>
           </Form.Field>
         </Form>
       </Grid.Column>
