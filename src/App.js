@@ -14,11 +14,12 @@ import Filter from './components/Filter';
 
 const App = () => {
 
-
+  //Set up state
   const [absentThreshold, setAbsentThreshold] = useState(100);
   const [gradeFilter, setGradeFilter] = useState(null);
   const [searchQuery, setSearchQuery] = useState(null);
 
+  //Callback functions
   const handleFilterClick = (value) => {
     setGradeFilter(Number(value));
   }
@@ -35,12 +36,13 @@ const App = () => {
     return studentsData.filter(student => student.attendancePercentage < absentThreshold);
   }
 
+  //Helper Functions
   const filterByGrade = (array) => array.filter(student => student.grade === gradeFilter);
 
   const searchFilter = (students) => {
     /*
       filters through the array and selects the students with a first
-      or last name that matches with the search query
+      OR last name that matches with the search query
     */
     return students.filter(student => student.firstName.toLowerCase().includes(searchQuery.toLowerCase())
     ||
@@ -49,6 +51,11 @@ const App = () => {
   }
 
   const filteredStudents = () => {
+    /*
+      filters through all of the students based on the selected filters.
+      first checks if both filters are being used and compounds the filters.
+      Otherwise it does each filter individually on top of the absent filter.
+    */
     if (searchQuery && gradeFilter) {
       return searchFilter(filterByGrade(filterChronicallyAbsentStudents()));
     } else if (searchQuery) {
@@ -69,7 +76,7 @@ const App = () => {
 
   return (
     <Container>
-      <h1>Dashboard</h1>
+      <h1>Student Dashboard</h1>
       <Filter grades={availableGrades()} onFilterClick={handleFilterClick} onSearchChange={handleSearchChange} onThresholdChange={handleThresholdChange}/>
       <StudentList students={filteredStudents()}/>
     </Container>
